@@ -1,5 +1,6 @@
-const loadData=async()=>{
-  const res= await fetch('https://openapi.programming-hero.com/api/phones?search=iphone')
+const loadData=async(inputText)=>{
+  const res= await fetch(`https://openapi.programming-hero.com/api/phones?search=${inputText}`)
+  
   const data =await res.json()
   const phones=data.data;
 //   console.log(phones)
@@ -8,14 +9,27 @@ display(phones)
 }
 
 const buttonHandler=()=>{
-  console.log('arif')
+  const inputField=document.getElementById('input-field')
+  const inputText=inputField.value;
+  console.log(inputText)
+  loadData(inputText)
 }
 
 const display=(phones)=>{
     // console.log(phones)
     const phoneContainer=document.getElementById('phone-container')
+    phoneContainer.textContent='';
+    const showAllcontainer=document.getElementById('show-all-container')
+    if(phones.length>12){
+      showAllcontainer.classList.remove('hidden')
+    }
+    else{
+      showAllcontainer.classList.add('hidden')
+    }
+    phones=phones.slice(0,12)
+    
     phones.forEach(phone => {
-        console.log(phone)
+        // console.log(phone)
         const phoneCard=document.createElement('div')
         phoneCard.classList='card w-96 bg-base-100 shadow-xl'
         phoneCard.innerHTML=`<div class="card w-96 bg-base-100 shadow-xl">
@@ -32,4 +46,4 @@ const display=(phones)=>{
     });
 }
 
-loadData()
+  loadData()
